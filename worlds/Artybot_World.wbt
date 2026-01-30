@@ -1,0 +1,267 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.26364053853972996 0.24328177920621927 -0.9334386119851361 2.026898842520397
+  position 0.31741302283434997 0.5872852600626393 0.42659507829328075
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+}
+DEF Paper Solid {
+  translation 0.11 0 0.001
+  children [
+    Shape {
+      appearance Appearance {
+        material Material {
+        }
+        texture ImageTexture {
+          url [
+            "textures/egrpaper.png"
+          ]
+        }
+      }
+      geometry DEF paper_box Box {
+        size 0.2794 0.2159 0.00051
+      }
+    }
+  ]
+  boundingObject USE paper_box
+  physics Physics {
+  }
+}
+DEF ArtyBot Robot {
+  translation 0 0 0.0005
+  children [
+    DEF base_group Group {
+      children [
+        DEF base_mesh_xform Transform {
+          translation -0.023 0.033 0.002
+          rotation 1 0 0 1.57
+          children [
+            DEF base_mesh_shape Shape {
+              appearance DEF plastic_appearance PBRAppearance {
+                baseColor 0.3 0.3 0.3
+                roughness 1
+                metalness 0
+              }
+              geometry DEF base_mesh_mesh Mesh {
+                url [
+                  "meshes/artybot/Base.STL"
+                ]
+              }
+            }
+          ]
+        }
+        DEF mg90s_base_xform Transform {
+          translation -1.12713e-05 1.12513e-05 0.033
+          rotation -0.7075051132605014 0.00039691606354005286 0.706708113132914 -3.1407953071795864
+          children [
+            DEF mg90s_base_shape Shape {
+              appearance DEF servo_appearance PBRAppearance {
+                baseColor 0 0 1
+                roughness 1
+                metalness 0
+              }
+              geometry Mesh {
+                url [
+                  "meshes/artybot/SG90.stl"
+                ]
+              }
+            }
+          ]
+        }
+      ]
+    }
+    DEF carriage_joint HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0 0.033
+      }
+      device [
+        RotationalMotor {
+          name "servo_1"
+        }
+      ]
+      endPoint DEF carriage_solid Solid {
+        rotation 0 1 0 0
+        children [
+          DEF carriage_transform Transform {
+            translation -0.0175 -0.02 0.0145
+            rotation 0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+            children [
+              DEF carriage_shape Shape {
+                appearance USE plastic_appearance
+                geometry DEF carriage_mesh Mesh {
+                  url [
+                    "meshes/artybot/Carriage.STL"
+                  ]
+                }
+              }
+            ]
+          }
+          DEF carriage_mg90s_transform Transform {
+            translation -0.005 -0.0055 0.054
+            rotation 1 0 0 1.5708
+            children [
+              USE mg90s_base_shape
+            ]
+          }
+          HingeJoint {
+            jointParameters HingeJointParameters {
+              axis 0 0 1
+              anchor -0.005 -0.0055 0.055
+            }
+            device [
+              DEF servo_2 RotationalMotor {
+                name "servo_2"
+              }
+            ]
+            endPoint DEF medarm_solid Solid {
+              translation -0.005 -0.00549996 0.053
+              rotation 0 0 -1 0.10000000000000299
+              children [
+                DEF medarm_shape_transform Transform {
+                  translation -0.0146 0 0.0005
+                  rotation -0.924043142338325 -0.38228705888696873 0.000935791144147971 3.12768
+                  children [
+                    DEF medarm_shape Shape {
+                      appearance USE plastic_appearance
+                      geometry Mesh {
+                        url [
+                          "meshes/artybot/MidArm.STL"
+                        ]
+                      }
+                    }
+                    DEF endarm_mg90s_transform Transform {
+                      translation 0.0905 0.0395 0.0125
+                      rotation 1 0 0 1.5708
+                      children [
+                        Shape {
+                          appearance USE servo_appearance
+                          geometry Mesh {
+                            url [
+                              "meshes/artybot/SG90.stl"
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  ]
+                  translationStep 0.0005
+                  rotationStep 0.001
+                }
+                HingeJoint {
+                  jointParameters HingeJointParameters {
+                    axis 0 0 1
+                    anchor 0.0773 0.0361 0
+                  }
+                  device [
+                    RotationalMotor {
+                      name "servo_3"
+                    }
+                  ]
+                  endPoint DEF endarm_solid Solid {
+                    translation 0.0773 0.0361 -0.01
+                    children [
+                      DEF endarm_shape_transform Transform {
+                        translation -0.00032 -0.0109 -0.0133
+                        rotation 0 0 1 0.785398
+                        children [
+                          Shape {
+                            appearance USE plastic_appearance
+                            geometry Mesh {
+                              url [
+                                "meshes/artybot/EndArm.STL"
+                              ]
+                            }
+                          }
+                          Transform {
+                            translation 0.0575 0.0074999 0.098
+                            rotation 1 0 0 -1.5707953071795862
+                            children [
+                              Shape {
+                                appearance USE plastic_appearance
+                                geometry Mesh {
+                                  url [
+                                    "meshes/artybot/sharpie.stl"
+                                  ]
+                                }
+                              }
+                              Transform {
+                                translation 0 0.125 0
+                                rotation 0 0 1 3.1415
+                                children [
+                                  Pen {
+                                    rotation 1 0 0 -1.57
+                                    children [
+                                      DEF gps_penposition GPS {
+                                        name "gps_penposition"
+                                      }
+                                    ]
+                                    inkDensity 0.8
+                                    leadSize 0.001
+                                    maxDistance 0.002
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                        translationStep 0.005
+                        rotationStep 0.01
+                      }
+                    ]
+                    boundingObject Transform {
+                      translation 0.017 0.017 0
+                      rotation 0 0 1 0.785398
+                      children [
+                        Box {
+                          size 0.02 0.011 0.005
+                        }
+                      ]
+                    }
+                    physics Physics {
+                    }
+                  }
+                }
+              ]
+              boundingObject Transform {
+                translation 0.04 0.01 -0.002
+                rotation 0 0 1 0.5
+                children [
+                  Box {
+                    size 0.05 0.01 0.005
+                  }
+                ]
+              }
+              physics Physics {
+              }
+            }
+          }
+        ]
+        name "carriage_solid"
+        boundingObject Transform {
+          translation 0 -0.007 0.03
+          children [
+            Box {
+              size 0.03 0.017 0.02
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "artybot"
+  boundingObject Box {
+    size 0.08 0.08 0.002
+  }
+  physics Physics {
+  }
+  controller "artybot_demo"
+}

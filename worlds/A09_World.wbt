@@ -1,0 +1,225 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation -0.5773502691896258 0.5773502691896258 0.5773502691896258 2.0944
+  position 0.9180917789707317 0.8881195073195838 3.5882091028259855
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 1 1 0
+  rotation 0 1 0 0
+  floorSize 2 2
+  floorTileSize 0.2 0.2
+}
+DEF Romi romi {
+  translation 0.1980575329932216 0.1980663324188893 0.026695648212319914
+  rotation -0.01514589817548888 0.0189761750770718 -0.999705209823327 0
+  controller "A09_Starter"
+  additionalSensors [
+    DEF gps GPS {
+    }
+    DEF imu InertialUnit {
+      name "imu"
+    }
+    DEF perfectDistanceSensor DistanceSensor {
+      name "perfectDistanceSensor"
+    }
+  ]
+}
+DEF Supervisor Robot {
+  name "Supervisor"
+  controller "A09_Supervisor"
+  supervisor TRUE
+}
+WoodenBox {
+  translation 0.9500000000000001 1.95 0.05
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.9500000000000001 1.85 0.05
+  name "wooden box(1)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.55 0.05
+  name "wooden box(2)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.45 0.05
+  name "wooden box(3)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.3499999999999999 0.05
+  name "wooden box(4)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.25 0.05
+  name "wooden box(5)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.9500000000000001 1.25 0.05
+  name "wooden box(6)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.15 0.05
+  name "wooden box(7)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.9500000000000001 1.15 0.05
+  name "wooden box(8)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 1.0499999999999998 0.05
+  name "wooden box(9)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.9500000000000001 1.0499999999999998 0.05
+  name "wooden box(10)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.05 1.0499999999999998 0.05
+  name "wooden box(11)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.1500000000000001 1.0499999999999998 0.05
+  name "wooden box(12)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.2500000000000002 1.0499999999999998 0.05
+  name "wooden box(13)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.35 1.0499999999999998 0.05
+  name "wooden box(14)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 0.95 0.05
+  name "wooden box(15)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 0.8499999999999999 0.05
+  name "wooden box(16)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 0.7499999999999998 0.05
+  name "wooden box(17)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.45 0.6499999999999999 0.05
+  name "wooden box(18)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.55 0.6499999999999999 0.05
+  name "wooden box(19)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.6500000000000001 0.6499999999999999 0.05
+  name "wooden box(20)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.7500000000000001 0.6499999999999999 0.05
+  name "wooden box(21)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.8500000000000001 0.6499999999999999 0.05
+  name "wooden box(22)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.9500000000000001 0.6499999999999999 0.05
+  name "wooden box(23)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.05 0.6499999999999999 0.05
+  name "wooden box(24)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.1500000000000001 0.6499999999999999 0.05
+  name "wooden box(25)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.2500000000000002 0.6499999999999999 0.05
+  name "wooden box(26)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.35 0.6499999999999999 0.05
+  name "wooden box(27)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.4500000000000002 0.6499999999999999 0.05
+  name "wooden box(28)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.4500000000000002 0.5499999999999998 0.05
+  name "wooden box(29)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 1.4500000000000002 0.44999999999999996 0.05
+  name "wooden box(30)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.7500000000000001 0.24999999999999978 0.05
+  name "wooden box(31)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.7500000000000001 0.1499999999999999 0.05
+  name "wooden box(32)"
+  size 0.1 0.1 0.1
+}
+WoodenBox {
+  translation 0.7500000000000001 0.04999999999999982 0.05
+  name "wooden box(33)"
+  size 0.1 0.1 0.1
+}
+DEF PingPong Solid {
+  translation 1.75 1.75 0.0101
+  children [
+    Shape {
+      appearance PBRAppearance {
+        baseColor 0 1 0
+        roughness 1
+        metalness 0
+      }
+      geometry DEF ball_geom Sphere {
+        radius 0.0125
+      }
+    }
+  ]
+  boundingObject USE ball_geom
+  physics Physics {
+    mass 0.001
+  }
+}

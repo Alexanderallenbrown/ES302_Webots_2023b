@@ -1,0 +1,19 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.29801320593060154 -0.2589276375483089 -0.91877342560863 4.8525016312651
+  position -0.2362575460390151 -0.9200987472221758 0.5489570427302067
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  rotation 0 1 0 0
+}
+romi {
+  translation 0 0 0.03
+  rotation 0 0 1 0
+  controller "romi_demo"
+}

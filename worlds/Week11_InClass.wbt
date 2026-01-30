@@ -1,0 +1,39 @@
+#VRML_SIM R2022a utf8
+WorldInfo {
+}
+Viewpoint {
+  orientation 0.5773502691896258 -0.5773502691896258 -0.5773502691896258 4.188785307179587
+  position 0.8664551802149976 0.961676456920648 4.667164940139967
+}
+TexturedBackground {
+}
+TexturedBackgroundLight {
+}
+RectangleArena {
+  translation 1 1 0
+  rotation 0 1 0 0
+  floorSize 2 2
+  floorTileSize 0.2 0.2
+}
+DEF Romi romi {
+  translation 0.1 0.1 0.0269254
+  rotation 1 0 0 0
+  controller ""
+  additionalSensors [
+    DEF gps GPS {
+    }
+    DEF imu InertialUnit {
+      name "imu"
+    }
+    DEF perfectDistanceSensor DistanceSensor {
+      name "perfectDistanceSensor"
+    }
+  ]
+}
+DEF supervisor Robot {
+  controller "Week11_Supervisor"
+  supervisor TRUE
+}
+WoodenBox {
+  size 0.1 0.1 0.1
+}

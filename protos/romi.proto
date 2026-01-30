@@ -1,0 +1,602 @@
+PROTO romi[
+  field SFString name "Romi"
+  field SFVec3f    translation  0 0 0.02
+  field SFRotation rotation     0 1 0 0
+  field SFString controller "void"
+  field SFFloat motorDamping 0.012
+  field SFFloat robotMass 0.5
+  field MFNode additionalSensors []
+]
+{
+Robot {
+  translation IS translation
+  rotation IS rotation
+  children [
+  Transform {
+      translation 0 0 0
+      children IS additionalSensors
+    }
+    DEF rom_chassis_shape Shape {
+      appearance PBRAppearance {
+        baseColor 0.3 0.3 0.3
+        roughness 1
+        metalness 0.5
+      }
+      geometry Mesh {
+        url [
+          "meshes/romi/romi-chassis-assem.stl"
+        ]
+      }
+      castShadows FALSE
+    }
+    DEF arm_base Solid {
+      translation 0 0 0.039
+      rotation 0 0 1 -3.1415926071795863
+      children [
+        Shape {
+          appearance DEF plastic RoughPolymer {
+          }
+          geometry Mesh {
+            url [
+              "meshes/romi/romiarm_base_assem.stl"
+            ]
+          }
+        }
+        DEF mainlink_pivot HingeJoint {
+          jointParameters HingeJointParameters {
+            axis 0 1 0
+            anchor 0.02775 0 0.0455
+          }
+          endPoint DEF main_arm Solid {
+            translation 0.0278 0.006 0.0455
+            rotation 0 0 1 3.14
+            children [
+              Shape {
+                appearance USE plastic
+                geometry Mesh {
+                  url [
+                    "meshes/romi/romiarm_mainlink.stl"
+                  ]
+                }
+              }
+              DEF main_triangle HingeJoint {
+                jointParameters HingeJointParameters {
+                  position -0.1
+                  axis 0 1 0
+                  anchor 0.073 0 0.0025
+                }
+                endPoint DEF triangle_link Solid {
+                  translation 0.073 0.0125 0.0025
+                  rotation 0 -1 0 0.09999999999999855
+                  children [
+                    DEF triangle_link Shape {
+                      appearance USE plastic
+                      geometry Mesh {
+                        url [
+                          "meshes/romi/romiarm_trianglelink.stl"
+                        ]
+                      }
+                    }
+                    Transform {
+                      translation 0 -0.0175 0
+                      children [
+                        USE triangle_link
+                      ]
+                    }
+                  ]
+                  name "triangle"
+                  boundingObject Box {
+                    size 0.01 0.001 0.01
+                  }
+                  physics Physics {
+                  }
+                }
+              }
+              DEF gripper_base_jt HingeJoint {
+                jointParameters HingeJointParameters {
+                  position -0.36
+                  axis 0 1 0
+                  anchor 0.1515 0 -0.027
+                }
+                endPoint DEF gripper_base Solid {
+                  translation 0.15061931441681228 -0.004500000000000134 -0.024660257940805175
+                  rotation 0 -1 0 0.3599999999999996
+                  children [
+                  DistanceSensor {
+                    translation 0 .01 -0.03
+                    name "proxFront"
+                    lookupTable [0.0254	991	.005,
+                    0.0508	987	.005,
+                    0.0762	980	.005,
+                    0.1016	853	.005,
+                    0.127	712	.005,
+                    0.1524	585	.005,
+                    0.1778	502	.005,
+                    0.2032	435	.005,
+                    0.2286	383	.005,
+                    0.254	346	.005,
+                    0.2794	316	.005,
+                    0.3048	296	.005,
+                    0.3302	281	.005,
+                    0.3556	268	.005,
+                    0.381	255	.005,
+                    0.4064	248	.005,
+                    0.4318	239	.005,
+                    0.4572	233	.005,
+                    0.4826	229	.005,
+                    0.508	223	.005,
+                    0.5334	219	.005,
+                    0.5588	215	.005,
+                    0.5842	211	.005,
+                    0.6096	209	.005,
+                    0.635	207	.005,
+                    0.6604	205	.005,
+                    0.6858	203	.005,
+                    0.7112	201	.005,
+                    0.7366	200	.005
+                    ]
+                    type "generic"
+                    numberOfRays 4
+                    aperture 0.02
+                  }
+                    Shape {
+                      appearance USE plastic
+                      geometry Mesh {
+                        url [
+                          "meshes/romi/romiarm_gripper_base.stl"
+                        ]
+                      }
+                    }
+                    DEF slider_1 SliderJoint {
+                      jointParameters JointParameters {
+                        axis 0 1 0
+                      }
+                      device [
+                        DEF motor_s2::right LinearMotor {
+                          name "s2::right"
+                          maxForce 1000
+                        }
+                        PositionSensor {
+                          name "s2fb"
+                        }
+                      ]
+                      endPoint DEF gripper_jaw_solid Solid {
+                        translation 0 -0.006 0
+                        children [
+                          DEF gripper_jaw_shape Shape {
+                            appearance USE plastic
+                            geometry DEF jaw_mesh Mesh {
+                              url [
+                                "meshes/romi/romiarm_gripper_jaw.stl"
+                              ]
+                            }
+                          }
+                        ]
+                        name "gripper_jaw_1"
+                        boundingObject DEF gripper_jaw_xform Transform {
+                          translation 0.04 -0.0025 -0.015
+                          rotation 1 0 1 .15
+                          children [
+                            Box {
+                              size 0.0253 0.005 0.023
+                            }
+                          ]
+                        }
+                      }
+                    }
+                    DEF slider_2 SliderJoint {
+                      jointParameters JointParameters {
+                        axis 0 -1 0
+                      }
+                      device [
+                        DEF motor_s2::left LinearMotor {
+                          name "s2::left"
+                          maxForce 1000
+                        }
+                      ]
+                      endPoint Solid {
+                        translation 0 0.026 -0.03
+                        rotation 1 0 0 3.14
+                        children [
+                          USE gripper_jaw_shape
+                        ]
+                        boundingObject DEF gripper_jaw_xform2 Transform {
+                          translation 0.04 -0.0025 -0.015
+                          rotation 1 0 -1 -0.15
+                          children [
+                            Box {
+                              size 0.0253 0.005 0.023
+                            }
+                          ]
+                        }
+                        physics Physics {
+                        }
+                      }
+                    }
+                    DEF tiltlink_joint HingeJoint {
+                      jointParameters HingeJointParameters {
+                        position -2.35
+                        axis 0 1 0
+                        anchor 0.009 0 0.0055
+                      }
+                      endPoint DEF gripper_tilt_link Solid {
+                        translation 0.009 0.003500000000000002 0.0055
+                        rotation 0 -1 0 2.392072895263144
+                        children [
+                          Shape {
+                            appearance USE plastic
+                            geometry Mesh {
+                              url [
+                                "meshes/romi/romiarm_longlink.stl"
+                              ]
+                            }
+                          }
+                          HingeJoint {
+                            jointParameters HingeJointParameters {
+                              axis 0 1 0
+                              anchor 0.0835 0 0
+                            }
+                            endPoint SolidReference {
+                              solidName "triangle"
+                            }
+                          }
+                        ]
+                        name "tilt_link"
+                        boundingObject Transform {
+                          translation 0.046 0.00625 0
+                          children [
+                            Box {
+                              size 0.08 0.009 0.009
+                            }
+                          ]
+                        }
+                        physics Physics {
+                        }
+                      }
+                    }
+                  ]
+                  name "gripper_base"
+                  boundingObject Transform {
+                    translation 0.0175 0.01 -0.015
+                    children [
+                      Box {
+                        size 0.005 0.045 0.025
+                      }
+                    ]
+                  }
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+            name "main_arm"
+            boundingObject Group {
+              children [
+                Transform {
+                  translation 0.04 0.006 0.002
+                  rotation 0 1 0 -0.05
+                  children [
+                    Box {
+                      size 0.07 0.005 0.005
+                    }
+                  ]
+                }
+                Transform {
+                  translation 0.115 0.006 -0.0135
+                  rotation 0 1 0 0.35
+                  children [
+                    Box {
+                      size 0.07 0.005 0.005
+                    }
+                  ]
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        }
+        DEF mainarm_servo HingeJoint {
+          jointParameters HingeJointParameters {
+            position 1.2
+            axis 0 1 0
+            anchor 0.047 0.02 0.015
+          }
+          device [
+            DEF s3 RotationalMotor {
+              name "s3"
+            }
+            PositionSensor {
+              name "s3fb"
+            }
+          ]
+          endPoint DEF short_servo_arm Solid {
+            translation 0.047 0.02 0.015
+            rotation -0.49158309533982825 0.4919747120787116 -0.7185450181103353 1.8947095174593267
+            children [
+              Shape {
+                appearance USE plastic
+                geometry Mesh {
+                  url [
+                    "meshes/romi/romiarm_servohorn_short.stl"
+                  ]
+                }
+              }
+              HingeJoint {
+                jointParameters HingeJointParameters {
+                  position 1.5
+                  anchor 0 0 0.015
+                }
+                endPoint DEF small_link Solid {
+                  translation 0.012499999999997444 0 0.015
+                  rotation 0.5635418531682164 -0.5630932682768219 0.604439038240466 2.0535332397104065
+                  children [
+                    HingeJoint {
+                      jointParameters HingeJointParameters {
+                        axis 0 1 0
+                        anchor 0 0 0.025
+                      }
+                      endPoint SolidReference {
+                        solidName "main_arm"
+                      }
+                    }
+                    Shape {
+                      appearance USE plastic
+                      geometry Mesh {
+                        url [
+                          "meshes/romi/romiarm_small_link.stl"
+                        ]
+                      }
+                    }
+                  ]
+                  name "small_link"
+                  boundingObject Transform {
+                    translation 0 0 0.01
+                    children [
+                      Box {
+                        size 0.005 0.001 0.025
+                      }
+                    ]
+                  }
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+            name "horn_short"
+            boundingObject Transform {
+              rotation 0 1 0 1.57
+              children [
+                Cylinder {
+                  height 0.01
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        }
+        DEF tilt_servo HingeJoint {
+          jointParameters HingeJointParameters {
+            position 0.53
+            axis 0 1 0
+            anchor 0.047 -0.02 0.015
+          }
+          device [
+            RotationalMotor {
+              name "s1"
+            }
+            PositionSensor {
+              name "s1fb"
+            }
+          ]
+          endPoint Solid {
+            translation 0.047 -0.02 0.015
+            rotation 0.2533505103013919 0.2535523404732982 0.9335548883544753 1.6387032684685892
+            children [
+              Shape {
+                appearance USE plastic
+                geometry Mesh {
+                  url [
+                    "meshes/romi/romiarm_servohorn_long.stl"
+                  ]
+                }
+              }
+              DEF bentlink_joint HingeJoint {
+                jointParameters HingeJointParameters {
+                  position 0.25
+                  anchor 0 0 0.027
+                }
+                endPoint DEF bentlink Solid {
+                  translation 0.008999999999999718 0 0.027
+                  rotation 2.5571171396784054e-11 -0.9921976672293292 -0.1246747333852277 3.1415926531827867
+                  children [
+                    Shape {
+                      appearance USE plastic
+                      geometry Mesh {
+                        url [
+                          "meshes/romi/romiarm_bentlink.stl"
+                        ]
+                      }
+                    }
+                    DEF bent_to_triangle HingeJoint {
+                      jointParameters HingeJointParameters {
+                        anchor 0 0.0925 0.0545
+                      }
+                      endPoint SolidReference {
+                        solidName "triangle"
+                      }
+                    }
+                  ]
+                  name "bentlink"
+                  boundingObject Group {
+                    children [
+                      Transform {
+                        translation 0 0.02 0
+                        children [
+                          Box {
+                            size 0.001 0.03 0.01
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                  physics Physics {
+                  }
+                }
+              }
+            ]
+            name "long_horn"
+            boundingObject Transform {
+              rotation 0 1 0 1.57
+              children [
+                Cylinder {
+                  height 0.005
+                  radius 0.01
+                }
+              ]
+            }
+            physics Physics {
+            }
+          }
+        }
+      ]
+      name "arm_base"
+      boundingObject Cylinder {
+        height 0.005
+        radius 0.082
+      }
+      physics Physics {
+      }
+    }
+    DEF wheel_1 HingeJoint {
+      jointParameters DEF wheeljoint HingeJointParameters {
+        axis 0 1 0
+        anchor 0 0.083 0.0077
+        dampingConstant IS motorDamping
+      }
+      device [
+        DEF wheel_encoder PositionSensor {
+          name "encoder_left"
+          resolution 0.00436
+        }
+        DEF wheel_motor RotationalMotor {
+          name "motor_left"
+          consumptionFactor -0.001
+          controlPID 1 0 0
+          maxVelocity 15.708
+          maxTorque 0.18
+          multiplier -1
+        }
+      ]
+      endPoint DEF wheel_solid Solid {
+        translation 0 0.075 0.0077
+        rotation 0 1 0 0
+        children [
+          DEF wheel_shape Shape {
+            appearance PBRAppearance {
+              baseColor 0.6 0.6 0.6
+              roughness 1
+              metalness 0.5
+            }
+            geometry DEF wheel_mesh Mesh {
+              url [
+                "meshes/romi/romi-wheel.stl"
+              ]
+            }
+            castShadows FALSE
+          }
+        ]
+        name "wheel"
+        boundingObject DEF wheel_bound Transform {
+          translation 0 -0.002 0
+          rotation 1 0 0 1.5708
+          children [
+            DEF wheel_cyl Cylinder {
+              height 0.008
+              radius 0.035
+            }
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+    DEF wheel_2 HingeJoint {
+      jointParameters HingeJointParameters {
+        axis 0 -1 0
+        anchor 0 -0.083 0.0077
+        dampingConstant IS motorDamping
+      }
+      device [
+        RotationalMotor {
+          name "motor_right"
+          consumptionFactor -0.001
+          controlPID 1 0 0
+          maxVelocity 15.7
+          maxTorque 0.18
+        }
+        PositionSensor {
+          name "encoder_right"
+        }
+      ]
+      endPoint Solid {
+        translation 1.853197088983379e-05 -0.07499737680899611 0.007837944934022277
+        rotation -0.004658735820834637 -2.7434521127638318e-05 -0.9999891476550626 3.14173872521689
+        children [
+          USE wheel_shape
+        ]
+        name "wheel2"
+        boundingObject Transform {
+          translation 0 -0.002 0
+          rotation 1 0 0 1.5708
+          children [
+            USE wheel_cyl
+          ]
+        }
+        physics Physics {
+        }
+      }
+    }
+  ]
+  name "Romi"
+  model "Romi"
+  boundingObject Group {
+    children [
+      Transform {
+        translation -0.063 0 -0.015
+        children [
+          Sphere {
+            radius 0.012
+            subdivision 3
+          }
+        ]
+      }
+      Cylinder {
+        height 0.02
+        radius 0.083
+      }
+      Transform {
+        translation 0.045 0 -0.015
+        rotation 0 1 0 0
+        children [
+          Sphere {
+            radius 0.012
+            subdivision 3
+          }
+        ]
+      }
+    ]
+  }
+  physics Physics {
+    density -1
+    mass IS robotMass
+  }
+  controller IS controller
+  battery [
+    0
+  ]
+  name IS name
+}
+}
